@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController characterController;
     public CapsuleCollider capsuleCollider;
     private InputSystem_Actions inputActions;
+    public Animator smoothAnimator;
 
     [Header("Movement")]
     public float speed;
@@ -75,6 +76,11 @@ public class PlayerMovement : MonoBehaviour
         else if (isCrouching) speed = crouchSpeed;
         else if (isRunning) speed = runSpeed;
         else speed = walkSpeed;
+
+        if (speed == 0) smoothAnimator.SetFloat("Movement", 0);
+        else if (speed == crouchSpeed) smoothAnimator.SetFloat("Movement", 1);
+        else if (speed == walkSpeed) smoothAnimator.SetFloat("Movement", 2);
+        else if (speed == runSpeed) smoothAnimator.SetFloat("Movement", 3);
 
         characterController.Move(move * speed * Time.deltaTime);
     }
