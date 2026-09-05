@@ -201,6 +201,36 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""Switch_Weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""11ca6443-08f1-4d28-98e7-1442f42f895e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Switch_Primary"",
+                    ""type"": ""Button"",
+                    ""id"": ""50b2ff6d-69c6-4a6f-a5c4-601ddd7bd8d3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Switch_Secondary"",
+                    ""type"": ""Button"",
+                    ""id"": ""055c631a-d967-42bf-be27-153f6a874b92"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -608,6 +638,39 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c507bb6-10d6-4298-84bb-77093025b5cb"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch_Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3d2c95c-6ed2-4705-acf6-b4c4980a646e"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch_Primary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5d3656f-d92e-4899-bfce-e78e032ddc26"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch_Secondary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1216,6 +1279,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+        m_Player_Switch_Weapon = m_Player.FindAction("Switch_Weapon", throwIfNotFound: true);
+        m_Player_Switch_Primary = m_Player.FindAction("Switch_Primary", throwIfNotFound: true);
+        m_Player_Switch_Secondary = m_Player.FindAction("Switch_Secondary", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1320,6 +1386,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_Reload;
+    private readonly InputAction m_Player_Switch_Weapon;
+    private readonly InputAction m_Player_Switch_Primary;
+    private readonly InputAction m_Player_Switch_Secondary;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1375,6 +1444,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Reload".
         /// </summary>
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Switch_Weapon".
+        /// </summary>
+        public InputAction @Switch_Weapon => m_Wrapper.m_Player_Switch_Weapon;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Switch_Primary".
+        /// </summary>
+        public InputAction @Switch_Primary => m_Wrapper.m_Player_Switch_Primary;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Switch_Secondary".
+        /// </summary>
+        public InputAction @Switch_Secondary => m_Wrapper.m_Player_Switch_Secondary;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1434,6 +1515,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @Switch_Weapon.started += instance.OnSwitch_Weapon;
+            @Switch_Weapon.performed += instance.OnSwitch_Weapon;
+            @Switch_Weapon.canceled += instance.OnSwitch_Weapon;
+            @Switch_Primary.started += instance.OnSwitch_Primary;
+            @Switch_Primary.performed += instance.OnSwitch_Primary;
+            @Switch_Primary.canceled += instance.OnSwitch_Primary;
+            @Switch_Secondary.started += instance.OnSwitch_Secondary;
+            @Switch_Secondary.performed += instance.OnSwitch_Secondary;
+            @Switch_Secondary.canceled += instance.OnSwitch_Secondary;
         }
 
         /// <summary>
@@ -1478,6 +1568,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @Switch_Weapon.started -= instance.OnSwitch_Weapon;
+            @Switch_Weapon.performed -= instance.OnSwitch_Weapon;
+            @Switch_Weapon.canceled -= instance.OnSwitch_Weapon;
+            @Switch_Primary.started -= instance.OnSwitch_Primary;
+            @Switch_Primary.performed -= instance.OnSwitch_Primary;
+            @Switch_Primary.canceled -= instance.OnSwitch_Primary;
+            @Switch_Secondary.started -= instance.OnSwitch_Secondary;
+            @Switch_Secondary.performed -= instance.OnSwitch_Secondary;
+            @Switch_Secondary.canceled -= instance.OnSwitch_Secondary;
         }
 
         /// <summary>
@@ -1855,6 +1954,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnReload(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Switch_Weapon" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitch_Weapon(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Switch_Primary" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitch_Primary(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Switch_Secondary" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitch_Secondary(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

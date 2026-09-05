@@ -6,6 +6,7 @@ public class PickUpWeapon : MonoBehaviour
     private bool isClose;
 
     [Header("Stats")]
+    public bool isPrimary;
     public int weaponID;
     public int ammoClip;
     public int magazine;
@@ -55,7 +56,7 @@ public class PickUpWeapon : MonoBehaviour
     {
         if (inputActions.Player.Interact.IsPressed() && isClose)
         {
-            wm.AssignWeapon(weaponID, ammoClip, magazine, maxAmmo);
+            wm.AssignWeapon(isPrimary, weaponID, ammoClip, magazine, maxAmmo);
             this.gameObject.SetActive(false);
         }
     }
