@@ -119,7 +119,7 @@
                 {
                     "name": "Switch_Weapon",
                     "type": "Button",
-                    "id": "11ca6443-08f1-4d28-98e7-1442f42f895e",
+                    "id": "38b293bd-3792-4410-89ed-ce305abea26e",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -129,7 +129,7 @@
                 {
                     "name": "Switch_Primary",
                     "type": "Button",
-                    "id": "50b2ff6d-69c6-4a6f-a5c4-601ddd7bd8d3",
+                    "id": "52f7d2ab-05e5-4f40-be39-83d500149405",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -139,7 +139,7 @@
                 {
                     "name": "Switch_Secondary",
                     "type": "Button",
-                    "id": "055c631a-d967-42bf-be27-153f6a874b92",
+                    "id": "09c9db36-3ead-4fa9-aa17-11fab4bfa0b0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -557,7 +557,7 @@
                 },
                 {
                     "name": "",
-                    "id": "8c507bb6-10d6-4298-84bb-77093025b5cb",
+                    "id": "c05c9f1f-e931-43bd-b5d8-463e6d25812a",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
@@ -568,7 +568,7 @@
                 },
                 {
                     "name": "",
-                    "id": "a3d2c95c-6ed2-4705-acf6-b4c4980a646e",
+                    "id": "831861b4-e9d2-455d-99c2-d24e5bcc6385",
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
@@ -579,7 +579,7 @@
                 },
                 {
                     "name": "",
-                    "id": "d5d3656f-d92e-4899-bfce-e78e032ddc26",
+                    "id": "a7aab382-1ffa-400e-95de-87a410a9f7e2",
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",

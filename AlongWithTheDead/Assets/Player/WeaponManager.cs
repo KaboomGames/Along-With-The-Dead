@@ -20,7 +20,6 @@ public class WeaponManager : MonoBehaviour
     public int secondaryMag;
     public int secondaryMax;
 
-
     private InputSystem_Actions inputAction;
     #endregion
 
@@ -43,16 +42,16 @@ public class WeaponManager : MonoBehaviour
 
     private void Update()
     {
-        #region Switch Weapons
+        #region Swtich Weapons
         if (inputAction.Player.Switch_Weapon.WasPressedThisFrame())
             Switch_Weapon(!usePrimary);
         if (inputAction.Player.Switch_Primary.WasPressedThisFrame())
             Switch_Weapon(true);
-        if (inputAction.Player.Switch_Secondary.WasPerformedThisFrame())
+        if (inputAction.Player.Switch_Secondary.WasPressedThisFrame())
             Switch_Weapon(false);
         #endregion
 
-        #region Use Weapon Functions
+        #region Use Functions
         if (usePrimary)
             Primary_Buttons();
         else
@@ -60,26 +59,7 @@ public class WeaponManager : MonoBehaviour
         #endregion
     }
 
-    #region Switch Weapon
-    void Switch_Weapon(bool toPrimary)
-    {
-        for (int i = 0; i < weapons.Length; i++)
-            weapons[i].SetActive(false);
-
-        if (toPrimary)
-        {
-            weapons[primaryID].SetActive(true);
-            usePrimary = true;
-        }
-        else
-        {
-            weapons[secondaryID].SetActive(true);
-            usePrimary = false;
-        }
-    }
-    #endregion
-
-    #region Primary Weapon Functions
+    #region Primary Functions
     void Primary_Buttons()
     {
         if (inputAction.Player.Shoot.IsPressed() && primaryClip > 0 && wd[primaryID].useAction)
@@ -119,7 +99,7 @@ public class WeaponManager : MonoBehaviour
     }
     #endregion
 
-    #region Secondary Weapon Functions
+    #region Secondary Functions
     void Secondary_Buttons()
     {
         if (inputAction.Player.Shoot.IsPressed() && secondaryClip > 0 && wd[secondaryID].useAction)
@@ -140,7 +120,7 @@ public class WeaponManager : MonoBehaviour
         wd[secondaryID].animator.Play("Shoot");
         secondaryClip--;
     }
-
+        
     public void Reloading_Secondary()
     {
         wd[secondaryID].animator.Play("Reload");
@@ -159,29 +139,47 @@ public class WeaponManager : MonoBehaviour
     }
     #endregion
 
-    #region Assign new weapon
-    public void AssignWeapon(bool isPrimary, int id, int assignClip, int assignMagazine, int assignMaxAmmo)
+    #region Switch Weapon
+    void Switch_Weapon(bool isPrimary)
     {
         for (int i = 0; i < weapons.Length; i++)
             weapons[i].SetActive(false);
 
         if (isPrimary)
         {
+            weapons[primaryID].SetActive(true);
             usePrimary = true;
-            primaryID = id;
-            weapons[id].SetActive(true);
-            primaryClip = assignClip;
-            primaryMag = assignMagazine;
-            primaryMax = assignMaxAmmo;
         }
         else
         {
+            weapons[secondaryID].SetActive(true);
             usePrimary = false;
+        }
+    }
+    #endregion
+
+    #region Assign new weapon
+    public void AssignWeapon(bool isPrimary, int id, int assignClip, int assignMagazine, int assignMaxAmmo)
+    {
+        for (int i = 0; i < weapons.Length; i++)
+            weapons[i].SetActive(false);
+
+        weapons[id].SetActive(true);
+        if (isPrimary)
+        {
+            primaryID = id;
+            primaryClip = assignClip;
+            primaryMag = assignMagazine;
+            primaryMax = assignMaxAmmo;
+            usePrimary = true;
+        }
+        else
+        {
             secondaryID = id;
-            weapons[id].SetActive(true);
             secondaryClip = assignClip;
             secondaryMag = assignMagazine;
             secondaryMax = assignMaxAmmo;
+            usePrimary = false;
         }
     }
     #endregion

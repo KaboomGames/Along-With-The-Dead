@@ -327,10 +327,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: pistol1_hands|GrabChamber
+      name: pistol1_hands|Grab_Chamber
       takeName: pistol1_hands|ReloadNoAmmo_pistol1
       internalID: -7916065389795540116
-      firstFrame: 74
+      firstFrame: 72
       lastFrame: 120
       wrapMode: 0
       orientationOffsetY: 0

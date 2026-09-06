@@ -360,10 +360,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ar1(automatic rifle)_hands|GrabChamber
+      name: ar1(automatic rifle)_hands|Grab_Chamber
       takeName: ar1(automatic rifle)_hands|ReloadNoAmmo_ar1(automatic rifle)
       internalID: -3988243747780582584
-      firstFrame: 95
+      firstFrame: 94
       lastFrame: 150
       wrapMode: 0
       orientationOffsetY: 0
