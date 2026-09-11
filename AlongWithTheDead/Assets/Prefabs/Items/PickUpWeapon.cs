@@ -33,12 +33,15 @@ public class PickUpWeapon : MonoBehaviour
     }
     #endregion
 
+    #region On Trigger Stay/Exit
     private void OnTriggerStay(Collider other)
     {
         if (other.name == "Player")
         {
             isClose = true;
             wm = other.GetComponent<WeaponManager>();
+            weaponModel[0].SetActive(false);
+            weaponModel[1].SetActive(true);
         }
     }
 
@@ -48,8 +51,29 @@ public class PickUpWeapon : MonoBehaviour
         {
             isClose = false;
             wm = null;
+            weaponModel[0].SetActive(true);
+            weaponModel[1].SetActive(false);
         }
     }
+    #endregion
+
+    #region Interaction Raycast
+    [Header("Interaction")]
+    public GameObject[] weaponModel; //0 actual model, 1 outline model
+    public void Interacting()
+    {
+        isClose = true;
+        weaponModel[0].SetActive(false);
+        weaponModel[1].SetActive(true);
+    }
+
+    public void StopInteracting()
+    {
+        isClose = false;
+        weaponModel[0].SetActive(true);
+        weaponModel[1].SetActive(false);
+    }
+    #endregion
 
     // Update is called once per frame
     void Update()
