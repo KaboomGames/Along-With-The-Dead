@@ -145,7 +145,7 @@ public class WeaponManager : MonoBehaviour
         for (int i = 0; i < weapons.Length; i++)
             weapons[i].SetActive(false);
 
-        if (isPrimary)
+        if (isPrimary && primaryID != -1)
         {
             weapons[primaryID].SetActive(true);
             usePrimary = true;

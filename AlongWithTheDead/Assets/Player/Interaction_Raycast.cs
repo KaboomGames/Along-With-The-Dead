@@ -8,12 +8,14 @@ public class Interaction_Raycast : MonoBehaviour
     public float range;
     public LayerMask layer;
 
+    [Header("References")]
     private PickUpWeapon puw_ref;
+    private WeaponManager wm;
     #endregion
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        wm = GetComponent<WeaponManager>();
     }
 
     // Update is called once per frame
@@ -27,7 +29,7 @@ public class Interaction_Raycast : MonoBehaviour
             if (puw != null)
             {
                 puw_ref = puw;
-                puw.Interacting();
+                puw.Interacting(wm);
             }
         }
         else

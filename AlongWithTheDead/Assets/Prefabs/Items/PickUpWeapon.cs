@@ -4,6 +4,7 @@ public class PickUpWeapon : MonoBehaviour
 {
     #region Variables
     private bool isClose;
+    public bool tableWeapon;
 
     [Header("Stats")]
     public bool isPrimary;
@@ -40,8 +41,8 @@ public class PickUpWeapon : MonoBehaviour
         {
             isClose = true;
             wm = other.GetComponent<WeaponManager>();
-            weaponModel[0].SetActive(false);
-            weaponModel[1].SetActive(true);
+            model[weaponID].SetActive(false);
+            outlineModel[weaponID].SetActive(true);
         }
     }
 
@@ -51,37 +52,72 @@ public class PickUpWeapon : MonoBehaviour
         {
             isClose = false;
             wm = null;
-            weaponModel[0].SetActive(true);
-            weaponModel[1].SetActive(false);
+            model[weaponID].SetActive(true);
+            outlineModel[weaponID].SetActive(false);
         }
     }
     #endregion
 
     #region Interaction Raycast
     [Header("Interaction")]
-    public GameObject[] weaponModel; //0 actual model, 1 outline model
-    public void Interacting()
+    public GameObject[] model;
+    public GameObject[] outlineModel;
+    public void Interacting(WeaponManager weaponManager)
     {
         isClose = true;
-        weaponModel[0].SetActive(false);
-        weaponModel[1].SetActive(true);
+        model[weaponID].SetActive(false);
+        outlineModel[weaponID].SetActive(true);
+        wm = weaponManager;
     }
 
     public void StopInteracting()
     {
         isClose = false;
-        weaponModel[0].SetActive(true);
-        weaponModel[1].SetActive(false);
+        model[weaponID].SetActive(true);
+        outlineModel[weaponID].SetActive(false);
+        wm = null;
     }
     #endregion
+
+    private void Start()
+    {
+        model[weaponID].SetActive(true);
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (inputActions.Player.Interact.IsPressed() && isClose)
+        if (inputActions.Player.Interact.WasPressedThisFrame() && isClose)
         {
-            wm.AssignWeapon(isPrimary, weaponID, ammoClip, magazine, maxAmmo);
-            this.gameObject.SetActive(false);
+            if (tableWeapon)
+            {
+                wm.AssignWeapon(isPrimary, weaponID, ammoClip, magazine, maxAmmo);
+            }
+            else
+            {
+                if (wm.usePrimary)
+                    DropAndPickNewWeapon(wm.usePrimary, wm.primaryID, wm.primaryClip, wm.primaryMag, wm.primaryMax);
+                else
+                    DropAndPickNewWeapon(wm.usePrimary, wm.secondaryID, wm.secondaryClip, wm.secondaryMag, wm.secondaryMax);
+            }
         }
     }
+
+    #region Drop And Pick New Weapon
+    void DropAndPickNewWeapon(bool primary, int id, int clip, int mag, int max)
+    {
+        wm.AssignWeapon(isPrimary, weaponID, ammoClip, magazine, maxAmmo);
+        isPrimary = primary;
+        weaponID = id;
+        ammoClip = clip;
+        magazine = mag;
+        maxAmmo = max;
+        for (int i = 0; i < model.Length; i++)
+        {
+            model[i].SetActive(false);
+            outlineModel[i].SetActive(false);
+        }
+        outlineModel[weaponID].SetActive(true);
+    }
+    #endregion
 }
