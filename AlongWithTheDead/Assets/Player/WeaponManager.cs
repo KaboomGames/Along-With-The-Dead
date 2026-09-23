@@ -12,12 +12,14 @@ public class WeaponManager : MonoBehaviour
     public int primaryID;
     public int primaryClip;
     public int primaryMag;
+    public int primaryAmount;
     public int primaryMax;
 
     [Header("Secondary")]
     public int secondaryID;
     public int secondaryClip;
     public int secondaryMag;
+    public int secondaryAmount;
     public int secondaryMax;
 
     private InputSystem_Actions inputAction;
@@ -84,11 +86,14 @@ public class WeaponManager : MonoBehaviour
     public void Reloading_Primary()
     {
         wd[primaryID].animator.Play("Reload");
-        primaryMax += primaryClip;
-        primaryClip = 0;
+        if (primaryAmount > 1)
+        {
+            primaryMax += primaryClip;
+            primaryClip = 0;
+        }
         if ((primaryMax - primaryMag) > 0)
         {
-            primaryClip = primaryMag;
+            primaryClip += primaryAmount;
             primaryMax -= primaryMag;
         }
         else
@@ -124,11 +129,14 @@ public class WeaponManager : MonoBehaviour
     public void Reloading_Secondary()
     {
         wd[secondaryID].animator.Play("Reload");
-        secondaryMax += secondaryClip;
-        secondaryClip = 0;
+        if (secondaryAmount > 1)
+        {
+            secondaryMax += secondaryClip;
+            secondaryClip = 0;
+        }
         if ((secondaryMax - secondaryMag) > 0)
         {
-            secondaryClip = secondaryMag;
+            secondaryClip += secondaryAmount;
             secondaryMax -= secondaryMag;
         }
         else
@@ -159,7 +167,7 @@ public class WeaponManager : MonoBehaviour
     #endregion
 
     #region Assign new weapon
-    public void AssignWeapon(bool isPrimary, int id, int assignClip, int assignMagazine, int assignMaxAmmo)
+    public void AssignWeapon(bool isPrimary, int id, int assignClip, int assignMagazine, int assignAmount, int assignMaxAmmo)
     {
         for (int i = 0; i < weapons.Length; i++)
             weapons[i].SetActive(false);
@@ -170,6 +178,7 @@ public class WeaponManager : MonoBehaviour
             primaryID = id;
             primaryClip = assignClip;
             primaryMag = assignMagazine;
+            primaryAmount = assignAmount;
             primaryMax = assignMaxAmmo;
             usePrimary = true;
         }
@@ -178,6 +187,7 @@ public class WeaponManager : MonoBehaviour
             secondaryID = id;
             secondaryClip = assignClip;
             secondaryMag = assignMagazine;
+            secondaryAmount = assignAmount;
             secondaryMax = assignMaxAmmo;
             usePrimary = false;
         }

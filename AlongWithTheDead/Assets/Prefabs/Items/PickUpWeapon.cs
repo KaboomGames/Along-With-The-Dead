@@ -11,6 +11,7 @@ public class PickUpWeapon : MonoBehaviour
     public int weaponID;
     public int ammoClip;
     public int magazine;
+    public int amount;
     public int maxAmmo;
 
     private WeaponManager wm;
@@ -91,26 +92,27 @@ public class PickUpWeapon : MonoBehaviour
         {
             if (tableWeapon)
             {
-                wm.AssignWeapon(isPrimary, weaponID, ammoClip, magazine, maxAmmo);
+                wm.AssignWeapon(isPrimary, weaponID, ammoClip, magazine, amount, maxAmmo);
             }
             else
             {
                 if (wm.usePrimary)
-                    DropAndPickNewWeapon(wm.usePrimary, wm.primaryID, wm.primaryClip, wm.primaryMag, wm.primaryMax);
+                    DropAndPickNewWeapon(wm.usePrimary, wm.primaryID, wm.primaryClip, wm.primaryMag, wm.primaryAmount, wm.primaryMax);
                 else
-                    DropAndPickNewWeapon(wm.usePrimary, wm.secondaryID, wm.secondaryClip, wm.secondaryMag, wm.secondaryMax);
+                    DropAndPickNewWeapon(wm.usePrimary, wm.secondaryID, wm.secondaryClip, wm.secondaryMag, wm.secondaryAmount, wm.secondaryMax);
             }
         }
     }
 
     #region Drop And Pick New Weapon
-    void DropAndPickNewWeapon(bool primary, int id, int clip, int mag, int max)
+    void DropAndPickNewWeapon(bool primary, int id, int clip, int mag, int Amount,int max)
     {
-        wm.AssignWeapon(isPrimary, weaponID, ammoClip, magazine, maxAmmo);
+        wm.AssignWeapon(isPrimary, weaponID, ammoClip, magazine, amount, maxAmmo);
         isPrimary = primary;
         weaponID = id;
         ammoClip = clip;
         magazine = mag;
+        amount = Amount;
         maxAmmo = max;
         for (int i = 0; i < model.Length; i++)
         {
