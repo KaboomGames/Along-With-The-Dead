@@ -1310,27 +1310,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8635350584498719005, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
       propertyPath: primaryID
-      value: 4
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8635350584498719005, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
       propertyPath: primaryMag
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8635350584498719005, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
       propertyPath: primaryMax
-      value: 120
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8635350584498719005, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
       propertyPath: usePrimary
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8635350584498719005, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
       propertyPath: primaryClip
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8635350584498719005, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
       propertyPath: primaryAmount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8635350584498719005, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
       propertyPath: secondaryAmount
