@@ -8,6 +8,8 @@ public class WeaponData : MonoBehaviour
     public AudioSource thisSource;
     public AudioClip[] clip;
     public float[] clipVolume;
+    public float range;
+    public float damage;
 
     private void OnEnable()
     {
@@ -24,6 +26,11 @@ public class WeaponData : MonoBehaviour
         thisSource.clip = clip[id];
         thisSource.volume = clipVolume[id];
         thisSource.Play();
+    }
+
+    public void Shoot()
+    {
+        wm.Shooting();
     }
 
     public void CheckBullets()

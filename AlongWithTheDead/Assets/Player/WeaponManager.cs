@@ -148,7 +148,7 @@ public class WeaponManager : MonoBehaviour
     #endregion
 
     #region Switch Weapon
-    void Switch_Weapon(bool isPrimary)
+    public void Switch_Weapon(bool isPrimary)
     {
         for (int i = 0; i < weapons.Length; i++)
             weapons[i].SetActive(false);
@@ -190,6 +190,38 @@ public class WeaponManager : MonoBehaviour
             secondaryAmount = assignAmount;
             secondaryMax = assignMaxAmmo;
             usePrimary = false;
+        }
+    }
+    #endregion
+
+    #region Shooting Raycast
+    public Transform raycastT;
+    public LayerMask enemyLayer;
+
+    public void Shooting()
+    {
+        float range = 0;
+        float damage = 0;
+        if (usePrimary)
+        {
+            range = wd[primaryID].range;
+            damage = wd[primaryID].damage;
+        }
+        else
+        {
+            range = wd[secondaryID].range;
+            damage = wd[secondaryID].damage;
+        }
+
+        Debug.DrawRay(raycastT.position, raycastT.forward * range, Color.red, 0.3f);
+        RaycastHit hit;
+        if (Physics.Raycast(raycastT.position, raycastT.forward, out hit, range, enemyLayer))
+        {
+            AIMove aiMove = hit.transform.GetComponent<AIMove>();
+            if (aiMove != null)
+            {
+                aiMove.TakeDamage(damage);
+            }
         }
     }
     #endregion

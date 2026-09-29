@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isMoving;
     private bool isRunning;
     private bool isCrouching;
+    public int health;
+    public int maxHealth;
 
     [Header("Movement")]
     public float walkSpeed;

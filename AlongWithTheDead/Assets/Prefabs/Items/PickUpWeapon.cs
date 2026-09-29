@@ -88,7 +88,9 @@ public class PickUpWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inputActions.Player.Interact.WasPressedThisFrame() && isClose)
+        if (!isClose) return;
+
+        if (inputActions.Player.Interact.WasPressedThisFrame())
         {
             if (tableWeapon)
             {
@@ -96,10 +98,10 @@ public class PickUpWeapon : MonoBehaviour
             }
             else
             {
-                if (wm.usePrimary)
-                    DropAndPickNewWeapon(wm.usePrimary, wm.primaryID, wm.primaryClip, wm.primaryMag, wm.primaryAmount, wm.primaryMax);
+                if (isPrimary)
+                    DropAndPickNewWeapon(true, wm.primaryID, wm.primaryClip, wm.primaryMag, wm.primaryAmount, wm.primaryMax);
                 else
-                    DropAndPickNewWeapon(wm.usePrimary, wm.secondaryID, wm.secondaryClip, wm.secondaryMag, wm.secondaryAmount, wm.secondaryMax);
+                    DropAndPickNewWeapon(false, wm.secondaryID, wm.secondaryClip, wm.secondaryMag, wm.secondaryAmount, wm.secondaryMax);
             }
         }
     }
@@ -108,6 +110,8 @@ public class PickUpWeapon : MonoBehaviour
     void DropAndPickNewWeapon(bool primary, int id, int clip, int mag, int Amount,int max)
     {
         wm.AssignWeapon(isPrimary, weaponID, ammoClip, magazine, amount, maxAmmo);
+        wm.Switch_Weapon(primary);
+
         isPrimary = primary;
         weaponID = id;
         ammoClip = clip;
