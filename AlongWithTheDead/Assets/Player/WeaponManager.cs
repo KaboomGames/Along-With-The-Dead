@@ -23,6 +23,9 @@ public class WeaponManager : MonoBehaviour
     public int secondaryMax;
 
     private InputSystem_Actions inputAction;
+
+    [Header("VFX")]
+    public GameObject[] impactVFX;
     #endregion
 
     #region Enable/Disable Input Actions
@@ -94,7 +97,7 @@ public class WeaponManager : MonoBehaviour
         if ((primaryMax - primaryMag) > 0)
         {
             primaryClip += primaryAmount;
-            primaryMax -= primaryMag;
+            primaryMax -= primaryAmount;
         }
         else
         {
@@ -137,7 +140,7 @@ public class WeaponManager : MonoBehaviour
         if ((secondaryMax - secondaryMag) > 0)
         {
             secondaryClip += secondaryAmount;
-            secondaryMax -= secondaryMag;
+            secondaryMax -= secondaryAmount;
         }
         else
         {
@@ -221,6 +224,7 @@ public class WeaponManager : MonoBehaviour
             if (aiMove != null)
             {
                 aiMove.TakeDamage(damage);
+                Instantiate(impactVFX[0], hit.transform.position, Quaternion.identity);
             }
         }
     }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,27 +14,30 @@ public class AIMove : MonoBehaviour
 
     [Header("Stats")]
     public float health;
+
+    [Header("References")]
+    private Animator animator;
+    private bool isWaiting;
+
+    [Header("SFX")]
+    public AudioClip[] clips;
+    public float[] volumes;
+    private AudioSource source;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-
+        animator = GetComponent<Animator>();
+        source = GetComponent<AudioSource>();
     }
 
 
     private void Update()
     {
         #region STAGE 1.1 RANDOM MOVEMENT
-        if (agent.remainingDistance <= agent.stoppingDistance)
-        {
-            Vector3 point;
-            if (RandomPoint(centrePoint.position, walkPointRange, out point))
-            {
-                Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
-                agent.SetDestination(point);
-            }
-        }
+        if (!isWaiting && agent.remainingDistance <= agent.stoppingDistance)
+            StartCoroutine(WaitBeforeWalk());
         #endregion
     }
 
@@ -46,6 +50,7 @@ public class AIMove : MonoBehaviour
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
             {
+                animator.SetFloat("Speed", 1);
                 result = hit.position;
                 return true;
             }
@@ -54,21 +59,52 @@ public class AIMove : MonoBehaviour
         result = Vector3.zero;
         return false;
     }
-    #endregion   
+    #endregion
 
+    #region Delay Between Talk Points
+    IEnumerator WaitBeforeWalk()
+    {
+        isWaiting = true;
+        animator.SetFloat("Speed", 0);
+        yield return new WaitForSeconds(5f);
+        Vector3 point;
+        if (RandomPoint(centrePoint.position, walkPointRange, out point))
+        {
+            Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+            agent.SetDestination(point);
+        }
+        isWaiting = false;
+    }
+    #endregion
+
+    #region Take Damage
     public void TakeDamage(float damage)
     {
         health -= damage;
 
         if (health <= 0)
         {
-            this.gameObject.SetActive(false);
+            animator.Play("DieFront");
+            agent.enabled = false;
         }
     }
+    #endregion
 
+    #region Play Audio
+    public void PlayAudio(int id)
+    {
+        source.Stop();
+        source.clip = clips[id];
+        source.volume = volumes[id];
+        source.Play();
+    }
+    #endregion
+
+    #region Draw Gizmos
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(this.transform.position, walkPointRange);
     }
+    #endregion
 }
