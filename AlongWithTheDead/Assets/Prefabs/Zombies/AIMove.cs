@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class AIMove : MonoBehaviour
 {
@@ -14,31 +15,62 @@ public class AIMove : MonoBehaviour
 
     [Header("Stats")]
     public float health;
+    public float originalSpeed;
+    public float chaseSpeed;
+    [HideInInspector] public bool playerDetected;
+    [HideInInspector] public Transform playerTransform;
+    [HideInInspector] public bool canAttack = true;
+    [HideInInspector] public bool dealDamage = false;
+
+    [Header("Events")]
+    public UnityEvent deathEvent;
 
     [Header("References")]
-    private Animator animator;
+    [HideInInspector] public Animator animator;
     private bool isWaiting;
+    private AIDetect aiDetect;
 
     [Header("SFX")]
+    public AudioSource ambientSource;
+    public AudioSource SFXSource;
     public AudioClip[] clips;
     public float[] volumes;
-    private AudioSource source;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-        source = GetComponent<AudioSource>();
+        aiDetect = GetComponentInChildren<AIDetect>();
     }
 
+    #region OnTriggers
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "Player")
+        {
+            playerDetected = true;
+            playerTransform = other.transform;
+        }
+    }
+    #endregion
 
     private void Update()
     {
-        #region STAGE 1.1 RANDOM MOVEMENT
-        if (!isWaiting && agent.remainingDistance <= agent.stoppingDistance)
-            StartCoroutine(WaitBeforeWalk());
-        #endregion
+        if (!playerDetected)
+        {
+            #region STAGE 1.1 RANDOM MOVEMENT
+            if (!isWaiting && agent.remainingDistance <= agent.stoppingDistance)
+                StartCoroutine(WaitBeforeWalk());
+            #endregion
+        }
+        else
+        {
+            animator.SetFloat("Speed", 2);
+            agent.SetDestination(playerTransform.position);
+            agent.speed = chaseSpeed;
+            PlayChaseAmbient();
+        }
     }
 
     #region Patrolling
@@ -77,6 +109,49 @@ public class AIMove : MonoBehaviour
     }
     #endregion
 
+    #region AI Control
+    public void Freeze()
+    {
+        agent.speed = 0;
+        agent.enabled = false;
+        canAttack = false;
+    }
+
+    public void Unfreeze()
+    {
+        agent.enabled = true;
+        canAttack = true;
+
+        if (playerDetected)
+        {
+            agent.speed = chaseSpeed;
+            agent.SetDestination(playerTransform.position);
+        }
+        else
+        {
+            agent.speed = originalSpeed;
+            StartCoroutine(WaitBeforeWalk());
+        }
+    }
+
+    public void PlayerCheck()
+    {
+        if (!aiDetect.isClose)
+        {
+            animator.SetTrigger("Move");
+            Unfreeze();
+        }
+    }
+    #endregion
+
+    #region Toggle Deal Damage
+    public void Toggle_DealDamage(int number)
+    {
+        if (number == 0) dealDamage = false;
+        else dealDamage = true;
+    }
+    #endregion
+
     #region Take Damage
     public void TakeDamage(float damage)
     {
@@ -84,19 +159,35 @@ public class AIMove : MonoBehaviour
 
         if (health <= 0)
         {
+            deathEvent.Invoke();
             animator.Play("DieFront");
             agent.enabled = false;
+            ambientSource.Stop();
         }
     }
     #endregion
 
-    #region Play Audio
+    #region Play Chase Ambient
+    private bool playedChaseAmbien;
+    private void PlayChaseAmbient()
+    {
+        if (!playedChaseAmbien)
+        {
+            playedChaseAmbien = true;
+            ambientSource.Stop();
+            ambientSource.clip = clips[1];
+            ambientSource.Play();
+        }
+    }
+    #endregion
+
+    #region Play SFX
     public void PlayAudio(int id)
     {
-        source.Stop();
-        source.clip = clips[id];
-        source.volume = volumes[id];
-        source.Play();
+        SFXSource.Stop();
+        SFXSource.clip = clips[id];
+        SFXSource.volume = volumes[id];
+        SFXSource.Play();
     }
     #endregion
 

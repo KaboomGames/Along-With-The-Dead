@@ -218,7 +218,7 @@ public class WeaponManager : MonoBehaviour
 
         Debug.DrawRay(raycastT.position, raycastT.forward * range, Color.red, 0.3f);
         RaycastHit hit;
-        if (Physics.Raycast(raycastT.position, raycastT.forward, out hit, range, enemyLayer))
+        if (Physics.Raycast(raycastT.position, raycastT.forward, out hit, range, enemyLayer, QueryTriggerInteraction.Ignore))
         {
             AIMove aiMove = hit.transform.GetComponent<AIMove>();
             if (aiMove != null)
