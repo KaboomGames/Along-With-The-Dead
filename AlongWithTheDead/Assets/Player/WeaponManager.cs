@@ -78,6 +78,12 @@ public class WeaponManager : MonoBehaviour
             wd[primaryID].useAction = false;
             Reloading_Primary();
         }
+
+        if (inputAction.Player.Shoving.WasPressedThisFrame() && wd[primaryID].useAction)
+        {
+            wd[primaryID].useAction = false;
+            wd[primaryID].animator.Play("Shoving");
+        }
     }
 
     public void Shooting_Primary()
@@ -120,6 +126,12 @@ public class WeaponManager : MonoBehaviour
         {
             wd[secondaryID].useAction = false;
             Reloading_Secondary();
+        }
+
+        if (inputAction.Player.Shoving.WasPressedThisFrame() && wd[secondaryID].useAction)
+        {
+            wd[secondaryID].useAction = false;
+            wd[secondaryID].animator.Play("Shoving");
         }
     }
 

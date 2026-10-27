@@ -15,10 +15,10 @@ public class PlayerMovement : MonoBehaviour
     public float runSpeed;
     public float crouchSpeed;
 
-    [Header("Height")]
-    public float normalHeight;
-    public float crouchHeight;
-    private float targetHeight;
+    [Header("Camera Height")]
+    public Transform cameraTransform;
+    public Transform normalTransform;
+    public Transform crouchTransform;
 
     [Header("Jump & Gravity")]
     public float jumpHeight;
@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController characterController;
     public CapsuleCollider capsuleCollider;
     private InputSystem_Actions inputActions;
-    public Animator smoothAnimator;
+    public Animator playerAnimator;
 
     [Header("Movement")]
     public float speed;
@@ -79,10 +79,10 @@ public class PlayerMovement : MonoBehaviour
         else if (isRunning) speed = runSpeed;
         else speed = walkSpeed;
 
-        if (speed == 0) smoothAnimator.SetFloat("Movement", 0);
-        else if (speed == crouchSpeed) smoothAnimator.SetFloat("Movement", 1);
-        else if (speed == walkSpeed) smoothAnimator.SetFloat("Movement", 2);
-        else if (speed == runSpeed) smoothAnimator.SetFloat("Movement", 3);
+        if (speed == 0) playerAnimator.SetFloat("Movement", 0);
+        else if (speed == crouchSpeed) playerAnimator.SetFloat("Movement", 1);
+        else if (speed == walkSpeed) playerAnimator.SetFloat("Movement", 2);
+        else if (speed == runSpeed) playerAnimator.SetFloat("Movement", 3);
 
         characterController.Move(move * speed * Time.deltaTime);
     }
@@ -92,12 +92,14 @@ public class PlayerMovement : MonoBehaviour
     private void HandleCrouch()
     {
         isCrouching = inputActions.Player.Crouch.IsPressed();
+        playerAnimator.SetBool("Crouch", isCrouching);
 
-        if (isCrouching) targetHeight = crouchHeight;
-        else targetHeight = normalHeight;
-
-        characterController.height = Mathf.Lerp(characterController.height, targetHeight, 3f * Time.deltaTime);
-        capsuleCollider.height = Mathf.Lerp(capsuleCollider.height, targetHeight, 3f * Time.deltaTime);
+        if (isCrouching)
+            cameraTransform.position = 
+                Vector3.MoveTowards(cameraTransform.position, crouchTransform.position, 1f * Time.deltaTime);
+        else
+            cameraTransform.position =
+                Vector3.MoveTowards(cameraTransform.position, normalTransform.position, 1f * Time.deltaTime);
     }
     #endregion
 

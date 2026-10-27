@@ -29,6 +29,7 @@ public class AIMove : MonoBehaviour
     [HideInInspector] public Animator animator;
     private bool isWaiting;
     private AIDetect aiDetect;
+    private Rigidbody rb;
 
     [Header("SFX")]
     public AudioSource ambientSource;
@@ -42,6 +43,7 @@ public class AIMove : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         aiDetect = GetComponentInChildren<AIDetect>();
+        rb = GetComponent<Rigidbody>();
     }
 
     #region OnTriggers
@@ -159,6 +161,9 @@ public class AIMove : MonoBehaviour
 
         if (health <= 0)
         {
+            agent.speed = 0;
+            rb.useGravity = false;
+            rb.isKinematic = true;
             deathEvent.Invoke();
             animator.Play("DieFront");
             agent.enabled = false;
@@ -188,6 +193,28 @@ public class AIMove : MonoBehaviour
         SFXSource.clip = clips[id];
         SFXSource.volume = volumes[id];
         SFXSource.Play();
+    }
+    #endregion
+
+    #region Shoved
+    public IEnumerator Shoved()
+    {
+        agent.enabled = false;
+        agent.speed = 0;
+        rb.isKinematic = false;
+        rb.useGravity = true;
+        animator.Play("Shoved");
+        rb.AddForce(-transform.forward * 0.15f, ForceMode.Impulse);
+        yield return new WaitForSeconds(1f);
+        if (health > 0)
+        {
+            rb.isKinematic = true;
+            rb.useGravity = false;
+            agent.enabled = true;
+            agent.speed = chaseSpeed;
+            animator.SetFloat("Speed", 2);
+            agent.SetDestination(playerTransform.position);
+        }
     }
     #endregion
 

@@ -516,10 +516,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1607673923461120651, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4721091516358837209, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
       propertyPath: m_Name
       value: Player
@@ -532,14 +528,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8635350584498719005, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
-      propertyPath: impactVFX.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8635350584498719005, guid: d68d35a6ba4d91646adc9149dc4d8682, type: 3}
-      propertyPath: 'impactVFX.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2414050855834571985, guid: ea03966c000b8754698d2121ff9c07c6, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2616,10 +2604,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zombie
       objectReference: {fileID: 0}
-    - target: {fileID: 411260766338726391, guid: 0ad1f2da8f2200844b39817b9f027fa3, type: 3}
-      propertyPath: Loop
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2688705482341828465, guid: 0ad1f2da8f2200844b39817b9f027fa3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2659,26 +2643,6 @@ PrefabInstance:
     - target: {fileID: 2688705482341828465, guid: 0ad1f2da8f2200844b39817b9f027fa3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5248208908850620620, guid: 0ad1f2da8f2200844b39817b9f027fa3, type: 3}
-      propertyPath: m_Speed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6927724160407836449, guid: 0ad1f2da8f2200844b39817b9f027fa3, type: 3}
-      propertyPath: volumes.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6927724160407836449, guid: 0ad1f2da8f2200844b39817b9f027fa3, type: 3}
-      propertyPath: 'volumes.Array.data[2]'
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6927724160407836449, guid: 0ad1f2da8f2200844b39817b9f027fa3, type: 3}
-      propertyPath: 'volumes.Array.data[3]'
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6927724160407836449, guid: 0ad1f2da8f2200844b39817b9f027fa3, type: 3}
-      propertyPath: 'volumes.Array.data[4]'
-      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

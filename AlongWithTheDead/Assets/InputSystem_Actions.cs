@@ -231,6 +231,16 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""Shoving"",
+                    ""type"": ""Button"",
+                    ""id"": ""e926ad71-b10f-4eb7-ae12-192d5440502d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -671,6 +681,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Switch_Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a00d649-3a98-4e08-bf69-2b1c67e720b5"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoving"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1282,6 +1303,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Switch_Weapon = m_Player.FindAction("Switch_Weapon", throwIfNotFound: true);
         m_Player_Switch_Primary = m_Player.FindAction("Switch_Primary", throwIfNotFound: true);
         m_Player_Switch_Secondary = m_Player.FindAction("Switch_Secondary", throwIfNotFound: true);
+        m_Player_Shoving = m_Player.FindAction("Shoving", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1389,6 +1411,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Switch_Weapon;
     private readonly InputAction m_Player_Switch_Primary;
     private readonly InputAction m_Player_Switch_Secondary;
+    private readonly InputAction m_Player_Shoving;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1457,6 +1480,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Switch_Secondary => m_Wrapper.m_Player_Switch_Secondary;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Shoving".
+        /// </summary>
+        public InputAction @Shoving => m_Wrapper.m_Player_Shoving;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1524,6 +1551,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Switch_Secondary.started += instance.OnSwitch_Secondary;
             @Switch_Secondary.performed += instance.OnSwitch_Secondary;
             @Switch_Secondary.canceled += instance.OnSwitch_Secondary;
+            @Shoving.started += instance.OnShoving;
+            @Shoving.performed += instance.OnShoving;
+            @Shoving.canceled += instance.OnShoving;
         }
 
         /// <summary>
@@ -1577,6 +1607,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Switch_Secondary.started -= instance.OnSwitch_Secondary;
             @Switch_Secondary.performed -= instance.OnSwitch_Secondary;
             @Switch_Secondary.canceled -= instance.OnSwitch_Secondary;
+            @Shoving.started -= instance.OnShoving;
+            @Shoving.performed -= instance.OnShoving;
+            @Shoving.canceled -= instance.OnShoving;
         }
 
         /// <summary>
@@ -1975,6 +2008,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwitch_Secondary(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Shoving" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShoving(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
