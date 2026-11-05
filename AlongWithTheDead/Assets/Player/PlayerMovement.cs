@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables
+    public bool freeze;
     private bool isMoving;
     private bool isRunning;
     private bool isCrouching;
@@ -59,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (freeze) return;
+
         HandleMovement();
         HandleCrouch();
         HandleJumpAndGravity();
@@ -116,6 +119,18 @@ public class PlayerMovement : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity* Time.deltaTime);
+    }
+    #endregion
+
+    #region Take Damage
+    public void TakeDamage(int value)
+    {
+        health -= value;
+
+        if (health < 0)
+        {
+            freeze = true;
+        }
     }
     #endregion
 }

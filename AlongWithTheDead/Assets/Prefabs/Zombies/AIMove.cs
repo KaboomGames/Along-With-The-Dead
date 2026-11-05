@@ -17,6 +17,7 @@ public class AIMove : MonoBehaviour
     public float health;
     public float originalSpeed;
     public float chaseSpeed;
+    public int damage;
     [HideInInspector] public bool playerDetected;
     [HideInInspector] public Transform playerTransform;
     [HideInInspector] public bool canAttack = true;

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class WeaponManager : MonoBehaviour
 {
@@ -26,12 +25,21 @@ public class WeaponManager : MonoBehaviour
 
     [Header("VFX")]
     public GameObject[] impactVFX;
+
+    [Header("References")]
+    public GameObject[] holders;
+    public GameObject[] Items;
+
+    private PlayerMovement pm;
+    private Interaction_Raycast ir;
     #endregion
 
     #region Enable/Disable Input Actions
     private void Awake()
     {
         inputAction = new InputSystem_Actions();
+        pm = GetComponent<PlayerMovement>();
+        ir = GetComponent<Interaction_Raycast>();
     }
 
     private void OnEnable()
@@ -47,13 +55,30 @@ public class WeaponManager : MonoBehaviour
 
     private void Update()
     {
+        if (pm.freeze) return;
+
         #region Swtich Weapons
         if (inputAction.Player.Switch_Weapon.WasPressedThisFrame())
+        {
+            Switch_Holder(0, 0);
             Switch_Weapon(!usePrimary);
+        }
         if (inputAction.Player.Switch_Primary.WasPressedThisFrame())
+        {
+            Switch_Holder(0, 0);
             Switch_Weapon(true);
+        }
         if (inputAction.Player.Switch_Secondary.WasPressedThisFrame())
+        {
+            Switch_Holder(0, 0);
             Switch_Weapon(false);
+        }
+        if (inputAction.Player.Switch_Throwable.WasPressedThisFrame() && ir.slotFull[0])
+            Switch_Holder(1, 0);
+        if (inputAction.Player.Switch_Item.WasPressedThisFrame() && ir.slotFull[1])
+            Switch_Holder(1 , 1);
+        if (inputAction.Player.Switch_Item1.WasPressedThisFrame() && ir.slotFull[2])
+            Switch_Holder(1, 2);
         #endregion
 
         #region Use Functions
@@ -238,6 +263,25 @@ public class WeaponManager : MonoBehaviour
                 aiMove.TakeDamage(damage);
                 Instantiate(impactVFX[0], hit.transform.position, Quaternion.identity);
             }
+        }
+    }
+    #endregion
+
+    #region Switch_Items
+    public void Switch_Holder(int id, int itemCheck)
+    {
+        for (int i = 0; i < holders.Length; i++)
+            holders[i].SetActive(false);
+
+        holders[id].SetActive(true);
+
+        if (id == 1)
+        {
+            for (int i = 0; i < Items.Length; i++)
+                Items[i].SetActive(false);
+
+            if (ir.slotFull[itemCheck])
+                Items[ir.itemID[itemCheck]].SetActive(true);
         }
     }
     #endregion

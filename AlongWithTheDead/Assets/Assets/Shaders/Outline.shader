@@ -5,6 +5,9 @@ Shader "URP/Outline"
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
 
+        [Toggle(_ALPHATEST_ON)] _AlphaClip ("Alpha Clipping", Float) = 0
+        _Cutoff ("Threshold", Range(0, 1)) = 0.5
+
         _OutlineColor ("Outline Color", Color) = (1,1,1,1)
         _OutlineWidth ("Outline Width", Range(0, 4)) = 0.25
 
@@ -36,20 +39,31 @@ Shader "URP/Outline"
             #pragma vertex vert
             #pragma fragment frag
 
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
+
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct Attributes
             {
                 float4 positionOS : POSITION;
                 float3 normalOS   : NORMAL;
+                float2 uv         : TEXCOORD0;
             };
 
             struct Varyings
             {
                 float4 positionHCS : SV_POSITION;
+                float2 uv          : TEXCOORD0;
             };
 
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
+
+            // Same CBUFFER in every pass keeps the SRP Batcher happy
             CBUFFER_START(UnityPerMaterial)
+                float4 _MainTex_ST;
+                half4 _Color;
+                half _Cutoff;
                 half4 _OutlineColor;
                 half _OutlineWidth;
             CBUFFER_END
@@ -58,15 +72,21 @@ Shader "URP/Outline"
             {
                 Varyings OUT;
 
-                // Expand along object-space normal (matches original CG logic)
+                // Expand along object-space normal
                 float3 expanded = IN.positionOS.xyz + IN.normalOS * _OutlineWidth * 0.01;
                 OUT.positionHCS = TransformObjectToHClip(expanded);
+                OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
 
                 return OUT;
             }
 
             half4 frag(Varyings IN) : SV_Target
             {
+                #if defined(_ALPHATEST_ON)
+                    half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv).a * _Color.a;
+                    clip(alpha - _Cutoff);
+                #endif
+
                 return _OutlineColor;
             }
             ENDHLSL
@@ -87,6 +107,7 @@ Shader "URP/Outline"
             #pragma vertex vert
             #pragma fragment frag
 
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
             #pragma multi_compile_fog
@@ -115,6 +136,9 @@ Shader "URP/Outline"
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
                 half4 _Color;
+                half _Cutoff;
+                half4 _OutlineColor;
+                half _OutlineWidth;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -135,6 +159,10 @@ Shader "URP/Outline"
             half4 frag(Varyings IN) : SV_Target
             {
                 half4 albedo = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * _Color;
+
+                #if defined(_ALPHATEST_ON)
+                    clip(albedo.a - _Cutoff);
+                #endif
 
                 Light mainLight = GetMainLight();
                 float3 normalWS = normalize(IN.normalWS);

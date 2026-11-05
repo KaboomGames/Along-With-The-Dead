@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Interaction_Raycast : MonoBehaviour
 {
@@ -11,7 +12,13 @@ public class Interaction_Raycast : MonoBehaviour
     [Header("References")]
     private PickUpWeapon puw_ref;
     private AmmoStack as_ref;
+    private PickUpItem pui_ref;
     private WeaponManager wm;
+
+    [Header("Inventory")]
+    public Image[] inventoryImage;
+    public bool[] slotFull;
+    public int[] itemID;
     #endregion
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,6 +35,7 @@ public class Interaction_Raycast : MonoBehaviour
         {
             PickUpWeapon puw = hit.transform.GetComponent<PickUpWeapon>();
             AmmoStack ammoStack = hit.transform.GetComponent<AmmoStack>();
+            PickUpItem pui = hit.transform.GetComponent<PickUpItem>();
             if (puw != null)
             {
                 puw_ref = puw;
@@ -38,11 +46,18 @@ public class Interaction_Raycast : MonoBehaviour
                 as_ref = ammoStack;
                 ammoStack.Interacting(wm);
             }
+            else if (pui != null)
+            {
+                pui_ref = pui;
+                pui.Interacting(this);
+            }
+
         }
         else
             StopInteracting();
     }
 
+    #region Stop Interacting
     void StopInteracting()
     {
         if (puw_ref != null)
@@ -55,5 +70,20 @@ public class Interaction_Raycast : MonoBehaviour
             as_ref.StopInteracting();
             as_ref = null;
         }
+        else if (pui_ref != null)
+        {
+            pui_ref.StopInteracting();
+            pui_ref = null;
+        }
     }
+    #endregion
+
+    #region Assign UI Image
+    public void AssignUIImage(int id, int item,Sprite sprite)
+    {
+        inventoryImage[id].sprite = sprite;
+        itemID[id] = item;
+        slotFull[id] = true;
+    }
+    #endregion
 }

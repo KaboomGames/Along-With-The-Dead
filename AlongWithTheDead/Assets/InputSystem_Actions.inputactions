@@ -155,6 +155,36 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "Switch_Throwable",
+                    "type": "Button",
+                    "id": "d69a5a90-df25-4f6f-8f10-30a732cba171",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Switch_Item",
+                    "type": "Button",
+                    "id": "fc4babd3-2492-4cbc-b816-2768e74ba649",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Switch_Item1",
+                    "type": "Button",
+                    "id": "e55897cc-8ca0-4baf-8b1d-584de418293a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -606,6 +636,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Shoving",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a6b0a66-6127-4376-983c-d0a170eb5845",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch_Throwable",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ebbaed45-4cf2-4e53-b5a2-5cd19659e710",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch_Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0189e841-e9d5-4e56-860b-a3f47d4808a5",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch_Item1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

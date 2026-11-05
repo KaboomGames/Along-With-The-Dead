@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -23,6 +24,11 @@ public class UIManager : MonoBehaviour
 
     private WeaponManager wm;
     private PlayerMovement pm;
+
+    [Header("Progress Bar")]
+    public GameObject progressBar;
+    public TextMeshProUGUI progressText;
+    public Slider progressSlider;
     #endregion
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -55,4 +61,31 @@ public class UIManager : MonoBehaviour
         healthBar.value = pm.health;
         #endregion
     }
+
+    #region Progress
+    public void StartProgress(string name, float duration)
+    {
+        StartCoroutine(ProgressRoutine(name, duration));
+    }
+    public void StopRoutine()
+    {
+        StopCoroutine(ProgressRoutine("None", 0));
+        progressBar.SetActive(false);
+        progressText.text = "None";
+        progressSlider.value = 0;
+    }
+
+    IEnumerator ProgressRoutine(string name, float duration)
+    {
+        progressText.text = name;
+        float timer = 0;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float step = timer / duration;
+            progressSlider.value = Mathf.Lerp(0, 1, step);
+            yield return null;
+        }
+    }
+    #endregion
 }

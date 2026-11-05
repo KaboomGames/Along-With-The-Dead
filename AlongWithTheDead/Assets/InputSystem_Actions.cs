@@ -241,6 +241,36 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""Switch_Throwable"",
+                    ""type"": ""Button"",
+                    ""id"": ""d69a5a90-df25-4f6f-8f10-30a732cba171"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Switch_Item"",
+                    ""type"": ""Button"",
+                    ""id"": ""fc4babd3-2492-4cbc-b816-2768e74ba649"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Switch_Item1"",
+                    ""type"": ""Button"",
+                    ""id"": ""e55897cc-8ca0-4baf-8b1d-584de418293a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -692,6 +722,39 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Shoving"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a6b0a66-6127-4376-983c-d0a170eb5845"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch_Throwable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ebbaed45-4cf2-4e53-b5a2-5cd19659e710"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch_Item"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0189e841-e9d5-4e56-860b-a3f47d4808a5"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch_Item1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1304,6 +1367,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Switch_Primary = m_Player.FindAction("Switch_Primary", throwIfNotFound: true);
         m_Player_Switch_Secondary = m_Player.FindAction("Switch_Secondary", throwIfNotFound: true);
         m_Player_Shoving = m_Player.FindAction("Shoving", throwIfNotFound: true);
+        m_Player_Switch_Throwable = m_Player.FindAction("Switch_Throwable", throwIfNotFound: true);
+        m_Player_Switch_Item = m_Player.FindAction("Switch_Item", throwIfNotFound: true);
+        m_Player_Switch_Item1 = m_Player.FindAction("Switch_Item1", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1412,6 +1478,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Switch_Primary;
     private readonly InputAction m_Player_Switch_Secondary;
     private readonly InputAction m_Player_Shoving;
+    private readonly InputAction m_Player_Switch_Throwable;
+    private readonly InputAction m_Player_Switch_Item;
+    private readonly InputAction m_Player_Switch_Item1;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1484,6 +1553,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Shoving => m_Wrapper.m_Player_Shoving;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Switch_Throwable".
+        /// </summary>
+        public InputAction @Switch_Throwable => m_Wrapper.m_Player_Switch_Throwable;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Switch_Item".
+        /// </summary>
+        public InputAction @Switch_Item => m_Wrapper.m_Player_Switch_Item;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Switch_Item1".
+        /// </summary>
+        public InputAction @Switch_Item1 => m_Wrapper.m_Player_Switch_Item1;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1554,6 +1635,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Shoving.started += instance.OnShoving;
             @Shoving.performed += instance.OnShoving;
             @Shoving.canceled += instance.OnShoving;
+            @Switch_Throwable.started += instance.OnSwitch_Throwable;
+            @Switch_Throwable.performed += instance.OnSwitch_Throwable;
+            @Switch_Throwable.canceled += instance.OnSwitch_Throwable;
+            @Switch_Item.started += instance.OnSwitch_Item;
+            @Switch_Item.performed += instance.OnSwitch_Item;
+            @Switch_Item.canceled += instance.OnSwitch_Item;
+            @Switch_Item1.started += instance.OnSwitch_Item1;
+            @Switch_Item1.performed += instance.OnSwitch_Item1;
+            @Switch_Item1.canceled += instance.OnSwitch_Item1;
         }
 
         /// <summary>
@@ -1610,6 +1700,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Shoving.started -= instance.OnShoving;
             @Shoving.performed -= instance.OnShoving;
             @Shoving.canceled -= instance.OnShoving;
+            @Switch_Throwable.started -= instance.OnSwitch_Throwable;
+            @Switch_Throwable.performed -= instance.OnSwitch_Throwable;
+            @Switch_Throwable.canceled -= instance.OnSwitch_Throwable;
+            @Switch_Item.started -= instance.OnSwitch_Item;
+            @Switch_Item.performed -= instance.OnSwitch_Item;
+            @Switch_Item.canceled -= instance.OnSwitch_Item;
+            @Switch_Item1.started -= instance.OnSwitch_Item1;
+            @Switch_Item1.performed -= instance.OnSwitch_Item1;
+            @Switch_Item1.canceled -= instance.OnSwitch_Item1;
         }
 
         /// <summary>
@@ -2015,6 +2114,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnShoving(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Switch_Throwable" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitch_Throwable(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Switch_Item" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitch_Item(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Switch_Item1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitch_Item1(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

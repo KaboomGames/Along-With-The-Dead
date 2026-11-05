@@ -22,7 +22,9 @@ public class AIDamage : MonoBehaviour
             aiMove.dealDamage = false;
             bc.enabled = false;
             aiMove.PlayAudio(hitSFX);
-            Debug.Log("I hit the player");
+            PlayerMovement pm = other.GetComponent<PlayerMovement>();
+            if (pm != null)
+                pm.TakeDamage(aiMove.damage);
         }
     }
 
