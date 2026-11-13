@@ -63,7 +63,7 @@ public class PickUpItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inputActions.Player.Interact.IsPressed() && isClose)
+        if (inputActions.Player.Interact.IsPressed() && isClose && !ir.slotFull[inventoryID])
         {
             ir.AssignUIImage(inventoryID, itemID, sprite);
             this.gameObject.SetActive(false);

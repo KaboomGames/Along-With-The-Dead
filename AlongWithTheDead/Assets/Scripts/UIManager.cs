@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
 
     private WeaponManager wm;
     private PlayerMovement pm;
+    private Interaction_Raycast ir;
 
     [Header("Progress Bar")]
     public GameObject progressBar;
@@ -35,6 +36,7 @@ public class UIManager : MonoBehaviour
     {
         pm = FindObjectOfType<PlayerMovement>();
         wm = FindObjectOfType<WeaponManager>();
+        ir = FindObjectOfType<Interaction_Raycast>();
         healthBar.maxValue = pm.maxHealth;
         healthBar.value = pm.health;
     }
@@ -63,20 +65,22 @@ public class UIManager : MonoBehaviour
     }
 
     #region Progress
-    public void StartProgress(string name, float duration)
+    public void StartProgress(string name, float duration, string item, int slotID)
     {
-        StartCoroutine(ProgressRoutine(name, duration));
+        StartCoroutine(ProgressRoutine(name, duration, item, slotID));
     }
-    public void StopRoutine()
+    public void StopProgress()
     {
-        StopCoroutine(ProgressRoutine("None", 0));
-        progressBar.SetActive(false);
+        StopCoroutine(ProgressRoutine("None", 0, "None", 0));
         progressText.text = "None";
         progressSlider.value = 0;
+        progressBar.SetActive(false);
     }
 
-    IEnumerator ProgressRoutine(string name, float duration)
+    IEnumerator ProgressRoutine(string name, float duration, string item, int slotID)
     {
+        bool complete = true;
+        progressBar.SetActive(true);
         progressText.text = name;
         float timer = 0;
         while (timer < duration)
@@ -84,7 +88,25 @@ public class UIManager : MonoBehaviour
             timer += Time.deltaTime;
             float step = timer / duration;
             progressSlider.value = Mathf.Lerp(0, 1, step);
-            yield return null;
+
+            if (!progressBar.activeSelf)
+            {
+                timer = duration;
+                complete = false;
+            }
+            else yield return null;
+        }
+
+        if (!progressBar.activeSelf)
+        {
+            complete = false;
+            progressSlider.value = 0;
+        }
+
+        if (complete)
+        {
+            progressBar.SetActive(false);
+            ir.UseItem(item, slotID);
         }
     }
     #endregion

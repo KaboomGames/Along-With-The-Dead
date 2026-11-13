@@ -14,6 +14,7 @@ public class Interaction_Raycast : MonoBehaviour
     private AmmoStack as_ref;
     private PickUpItem pui_ref;
     private WeaponManager wm;
+    private PlayerMovement pm;
 
     [Header("Inventory")]
     public Image[] inventoryImage;
@@ -24,6 +25,7 @@ public class Interaction_Raycast : MonoBehaviour
     void Start()
     {
         wm = GetComponent<WeaponManager>();
+        pm = GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -51,7 +53,6 @@ public class Interaction_Raycast : MonoBehaviour
                 pui_ref = pui;
                 pui.Interacting(this);
             }
-
         }
         else
             StopInteracting();
@@ -81,9 +82,35 @@ public class Interaction_Raycast : MonoBehaviour
     #region Assign UI Image
     public void AssignUIImage(int id, int item,Sprite sprite)
     {
+        inventoryImage[id].color = new Color(255, 255, 255, 255);
         inventoryImage[id].sprite = sprite;
         itemID[id] = item;
         slotFull[id] = true;
+    }
+    #endregion
+
+    #region Use Item
+    public void UseItem(string item, int slotID)
+    {
+        if (item == "FirstAid")
+            pm.health = 100;
+        else if (item == "Pills")
+        {
+            pm.health += 50;
+            if (pm.health > 100)
+                pm.health = 100;
+        }
+        else if (item == "Syringe")
+        {
+            pm.StartCoroutine(pm.increaseSpeed());
+            pm.health += 15;
+            if (pm.health > 100)
+                pm.health = 100;
+        }
+
+        inventoryImage[slotID].color = new Color(255, 255, 255, 0);
+        slotFull[slotID] = false;
+        wm.Switch_Holder(0, 0);
     }
     #endregion
 }

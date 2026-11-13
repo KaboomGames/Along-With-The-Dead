@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -131,6 +132,15 @@ public class PlayerMovement : MonoBehaviour
         {
             freeze = true;
         }
+    }
+    #endregion
+
+    #region Increase Player's Speed
+    public IEnumerator increaseSpeed()
+    {
+        speed = runSpeed + 0.4f;
+        yield return new WaitForSeconds(30f);
+        speed = walkSpeed;
     }
     #endregion
 }
